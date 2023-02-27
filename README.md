@@ -42,7 +42,7 @@ java.lang.UnsupportedOperationException: Record requires ASM8
 * Start a Payara Server using docker and JDK17. For example: `docker run -p 8080:8080 -p4848:4848 payara/server-full:6.2023.2-jdk17`.
 * Deploy the Application
 * The log should show the error
-* You can browse to `http://localhost:8080/payara-jdk17-asm-bug/rest/resource` and see that the record can at least be used correctly
+* You can browse to [http://localhost:8080/payara-jdk17-asm-bug/rest/resource](http://localhost:8080/payara-jdk17-asm-bug/rest/resource) and see that the record can at least be used correctly
 
 ## Additional information
 
