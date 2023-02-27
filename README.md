@@ -15,32 +15,31 @@ You should not get an exception during deployment.
 If you deploy this project you will see the following deployment error:
 
 ```
-2023-02-27 14:59:46 [#|2023-02-27T13:59:46.920+0000|SEVERE|Payara 6.2023.3-SNAPSHOT|javax.enterprise.system.tools.deployment.common|_ThreadID=221;_ThreadName=payara-executor-service-task;_TimeMillis=1677506386920;_LevelValue=1000;|
-2023-02-27 14:59:46   Exception while visiting WEB-INF/classes/de/adtelligence/jdk17asmbug/MyRecord.class of size 1698
-2023-02-27 14:59:46 java.lang.UnsupportedOperationException: Record requires ASM8
-2023-02-27 14:59:46     at org.objectweb.asm.ClassVisitor.visitRecordComponent(ClassVisitor.java:305)
-2023-02-27 14:59:46     at org.objectweb.asm.ClassReader.readRecordComponent(ClassReader.java:953)
-2023-02-27 14:59:46     at org.objectweb.asm.ClassReader.accept(ClassReader.java:731)
-2023-02-27 14:59:46     at org.objectweb.asm.ClassReader.accept(ClassReader.java:424)
-2023-02-27 14:59:46     at org.glassfish.hk2.classmodel.reflect.Parser$5.on(Parser.java:336)
-2023-02-27 14:59:46     at com.sun.enterprise.v3.server.ReadableArchiveScannerAdapter.handleEntry(ReadableArchiveScannerAdapter.java:164)
-2023-02-27 14:59:46     at com.sun.enterprise.v3.server.ReadableArchiveScannerAdapter.onSelectedEntries(ReadableArchiveScannerAdapter.java:130)
-2023-02-27 14:59:46     at org.glassfish.hk2.classmodel.reflect.Parser.doJob(Parser.java:321)
-2023-02-27 14:59:46     at org.glassfish.hk2.classmodel.reflect.Parser.access$300(Parser.java:44)
-2023-02-27 14:59:46     at org.glassfish.hk2.classmodel.reflect.Parser$3.call(Parser.java:280)
-2023-02-27 14:59:46     at org.glassfish.hk2.classmodel.reflect.Parser$3.call(Parser.java:269)
-2023-02-27 14:59:46     at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
-2023-02-27 14:59:46     at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
-2023-02-27 14:59:46     at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
-2023-02-27 14:59:46     at java.base/java.lang.Thread.run(Thread.java:833)
-2023-02-27 14:59:46 |#]
+[#|2023-02-27T14:33:10.498+0000|SEVERE|Payara 6.2023.2|javax.enterprise.system.tools.deployment.common|_ThreadID=204;_ThreadName=payara-executor-service-task;_TimeMillis=1677508390498;_LevelValue=1000;|
+  Exception while visiting WEB-INF/classes/de/adtelligence/jdk17asmbug/MyRecord.class of size 1698
+java.lang.UnsupportedOperationException: Record requires ASM8
+        at org.objectweb.asm.ClassVisitor.visitRecordComponent(ClassVisitor.java:305)
+        at org.objectweb.asm.ClassReader.readRecordComponent(ClassReader.java:953)
+        at org.objectweb.asm.ClassReader.accept(ClassReader.java:731)
+        at org.objectweb.asm.ClassReader.accept(ClassReader.java:424)
+        at org.glassfish.hk2.classmodel.reflect.Parser$5.on(Parser.java:336)
+        at com.sun.enterprise.v3.server.ReadableArchiveScannerAdapter.handleEntry(ReadableArchiveScannerAdapter.java:164)
+        at com.sun.enterprise.v3.server.ReadableArchiveScannerAdapter.onSelectedEntries(ReadableArchiveScannerAdapter.java:130)
+        at org.glassfish.hk2.classmodel.reflect.Parser.doJob(Parser.java:321)
+        at org.glassfish.hk2.classmodel.reflect.Parser$3.call(Parser.java:280)
+        at org.glassfish.hk2.classmodel.reflect.Parser$3.call(Parser.java:269)
+        at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+        at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+        at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+        at java.base/java.lang.Thread.run(Thread.java:833)
+|#]
 ```
 
 
 ## Reproducer
 
 * Use the code under [https://github.com/TheOnlyAl/payara-jdk17-asm-bug](https://github.com/TheOnlyAl/payara-jdk17-asm-bug) project to build the `payara-jdk17-asm-bug-1.0.0-SNAPSHOT.war` Web Archive.
-* Start a Payara Server using docker. For example: `docker run -p 8080:8080 -p4848:4848 payara/server-full:6.2023.2`.
+* Start a Payara Server using docker and JDK17. For example: `docker run -p 8080:8080 -p4848:4848 payara/server-full:6.2023.2-jdk17`.
 * Deploy the Application
 * The log should show the error
 * You can browse to `http://localhost:8080/payara-jdk17-asm-bug/rest/resource` and see that the record can at least be used correctly
